@@ -19,5 +19,5 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('GiveMe/', views.TakeSatelites, name="GetSatelites"),
+    path('GiveMe', views.TakeSatelites, name="GetSatelites"),
 ]
