@@ -1,8 +1,8 @@
 import datetime
 from contextlib import suppress
-from .classes import Satelite
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
+from .classes import Satelite
 
 
 def get_satelite(filename, user):
@@ -26,11 +26,17 @@ def get_satelite(filename, user):
 
                 # Se obtiene el objeto satelite sgp4 con las dos lineas 
                 # posteriores
-                satellite = twoline2rv(next(fobj), next(fobj), wgs72)
+                line1 = next(fobj)
+                line2 = next(fobj)
+                satellite = twoline2rv(line1, line2, wgs72)
+
+                # Se parte la segunda linea para obtener el identificador y
+                # anyadirlo a la url
+                fields = line2.split()
 
                 # Con el satelite obtenido, se calcula la posicion y velocidad
                 position, velocity = satellite.propagate(*now.timetuple()[:6])
 
                 # Se construye y devuelve un objeto Satelite con la posicion
-                # y el nombre
-                yield Satelite(position[0], position[1], position[2], name.strip(), user)
+                # , el nombre, las coordenadas del usuario y la url
+                yield Satelite(position[0], position[1], position[2], name.strip(), user, 'https://www.n2yo.com/satellite/?s=' + fields[1])
