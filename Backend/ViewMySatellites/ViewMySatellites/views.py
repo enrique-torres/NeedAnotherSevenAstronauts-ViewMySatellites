@@ -10,7 +10,7 @@ from .classes import Satelite
 from .get_satelite import get_satelite
 from django.views.decorators.csrf import csrf_exempt
 import pymap3d as pm
-import astropy as ap
+import ephem
 
 SAT_FILE = str(Path(__file__).parent / 'active.txt')
 
@@ -20,7 +20,22 @@ def TakeSatelites(request):
     #if request.method != "POST":
     #    return
     userx, usery, userz = math.radians(float(request.GET["lat"])), math.radians(float(request.GET["lon"])), math.radians(float(request.GET["alt"]))
-    # Obtener lat, long de la peticion del usuario
+
+    # codigo basura para calcular posicion del sol
+    obs = ephem.Observer()
+    obs.lat = userx
+    obs.lon = usery
+    obs.elevation = userz
+    obs.date = datetime.now()
+    sun = ephem.Sun()
+    sun.compute(obs)
+    az = ephem.degrees(sun.az)
+    el = ephem.degrees(sun.alt)
+    # los numeros a partir de "el" son numeros magicos
+    sun_x, sun_y, sun_z    = pm.aer2ecef(az,el,72,38.95,-104.77,80 / 1000)
+    
+    
+    # Obtener lat, long de la peticion del usuario  
     # XYZ del usuario en sistema de coordenadas ECEF 
     # https://en.wikipedia.org/wiki/Geographic_coordinate_system#Earth-centered,_Earth-fixed
     #userx, usery, userz = pm.geodetic2ecef(*json.loads(request.body).values())
@@ -30,11 +45,9 @@ def TakeSatelites(request):
     userx = radioPlaneta * userx/mod
     usery = radioPlaneta * usery/mod
     userz = radioPlaneta * userz/mod
-    
-    coords = ap.get_sun(datetime.datetime.now())
+  
 
-    response = {**dict(x=userx, y=usery, z=userz),
-                "sun": **dict(x=coords.x, y=coords.y, z=coords.z),
+    response = {**dict(x=userx, y=usery, z=userz, sun_x=sun_x, sun_y=sun_y, sun_z=sun_z),
                 "satellites": list(a.__dict__ for a in get_satelite(SAT_FILE, [userx, usery, userz]))}
 
     return JsonResponse(response)

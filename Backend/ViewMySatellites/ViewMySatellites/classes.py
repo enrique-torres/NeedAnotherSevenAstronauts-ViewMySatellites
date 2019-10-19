@@ -2,7 +2,7 @@ from collections import namedtuple
 import math
 
 
-#Satelite = namedtuple('Satelite', 'x, y, z, name')
+#Satelite = satnamedtuple('Satelite', 'x, y, z, satname')
 class Satelite:
     """
     Representa un satelite con su nombre y sus coordenadas
@@ -15,18 +15,18 @@ class Satelite:
     real_x = real_y = real_z = 0
 
     # Nombre del satelite
-    name = ''
+    satname = ''
 
     # URL con informacion del planeta
     url = ''
 
-    def __init__(self, _x, _y, _z, _name, user, _url):
+    def __init__(self, _x, _y, _z, _satname, user, _url):
         """
         Constructor del satelite
         @param x Coordenada x del satelite
         @param y Coordenada y del satelite
         @param z Coordenada z del satelite
-        @param name Nombre del satelite
+        @param satname Nombre del satelite
         @param user Coordendas del usuario
         @param url URL con informacion del planeta
         """
@@ -42,7 +42,7 @@ class Satelite:
         self.real_x = _x
         self.real_y = _y
         self.real_z = _z
-        self.name = _name
+        self.satname = _satname
         self.url = _url
 
     def __repr__(self):
