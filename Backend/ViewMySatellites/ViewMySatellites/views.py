@@ -10,6 +10,7 @@ from .classes import Satelite
 from .get_satelite import get_satelite
 from django.views.decorators.csrf import csrf_exempt
 import pymap3d as pm
+import astropy as ap
 
 SAT_FILE = str(Path(__file__).parent / 'active.txt')
 
@@ -29,8 +30,11 @@ def TakeSatelites(request):
     userx = radioPlaneta * userx/mod
     usery = radioPlaneta * usery/mod
     userz = radioPlaneta * userz/mod
+    
+    coords = ap.get_sun(datetime.datetime.now())
 
     response = {**dict(x=userx, y=usery, z=userz),
+                "sun": **dict(x=coords.x, y=coords.y, z=coords.z),
                 "satellites": list(a.__dict__ for a in get_satelite(SAT_FILE, [userx, usery, userz]))}
 
     return JsonResponse(response)
