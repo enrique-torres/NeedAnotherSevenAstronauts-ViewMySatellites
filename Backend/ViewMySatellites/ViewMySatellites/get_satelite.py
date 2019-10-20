@@ -35,7 +35,7 @@ def get_satelite(filename, user):
                 fields = line2.split()
 
                 # Con el satelite obtenido, se calcula la posicion y velocidad
-                position, velocity = satellite.propagate(*now.timetuple()[:6])
+                position, _ = satellite.propagate(*now.timetuple()[:6])
 
                 # Se construye y devuelve un objeto Satelite con la posicion
                 # , el nombre, las coordenadas del usuario y la url

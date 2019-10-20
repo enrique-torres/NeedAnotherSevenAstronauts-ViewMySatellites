@@ -17,6 +17,8 @@ class Satelite:
     # Nombre del satelite
     satname = ''
 
+    distance = 0
+
     # URL con informacion del planeta
     url = ''
 
@@ -42,6 +44,7 @@ class Satelite:
         self.real_x = _x
         self.real_y = _y
         self.real_z = _z
+        self.distance = mod
         self.satname = _satname
         self.url = _url
 
