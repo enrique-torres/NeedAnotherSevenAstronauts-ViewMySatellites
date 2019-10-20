@@ -47,7 +47,7 @@ def TakeSatelites(request):
     userz = radioPlaneta * userz/mod
   
 
-    response = {**dict(x=userx, y=usery, z=userz, sun_x=sun_x, sun_y=sun_y, sun_z=sun_z),
+    response = {**dict(x=userx, y=userz, z=usery, sun_x=sun_x, sun_y=sun_z, sun_z=sun_y),
                 "satellites": list(a.__dict__ for a in get_satelite(SAT_FILE, [userx, usery, userz]))}
 
     return JsonResponse(response)
