@@ -39,11 +39,11 @@ class Satelite:
                         sateliteLocal[1] * sateliteLocal[1] + sateliteLocal[2]*sateliteLocal[2])
 
         self.x = radioPlaneta * sateliteLocal[0]/mod
-        self.y = radioPlaneta * sateliteLocal[2]/mod
-        self.z = radioPlaneta * sateliteLocal[1]/mod
+        self.y = radioPlaneta * sateliteLocal[1]/mod
+        self.z = radioPlaneta * sateliteLocal[2]/mod
         self.real_x = _x
-        self.real_y = _z
-        self.real_z = _y
+        self.real_y = _y
+        self.real_z = _z
         self.distance = mod
         self.satname = _satname
         self.url = _url
