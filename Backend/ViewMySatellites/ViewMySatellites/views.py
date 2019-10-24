@@ -82,7 +82,7 @@ def TakeSatelites(request):
     # Queremos que apunte del sol a la tierra (luz direccional)
     sun_dir = sun_dir * -1.0
 
-    response = {**dict(x=userx, y=usery, z=userz, sun_x=sun_dir[0], sun_y=sun_dir[1], sun_z=sun_dir[2]),
+    response = {**dict(x=0.0, y=0.0, z=0.0, sun_x=sun_dir[0], sun_y=sun_dir[1], sun_z=sun_dir[2]),
                 "satellites": list(a.__dict__ for a in get_satelite(SAT_FILE, [userx, usery, userz]))}
 
     return JsonResponse(response)
